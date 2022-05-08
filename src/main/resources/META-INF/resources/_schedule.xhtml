@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns="http://www.w3.org/1999/xhtml">
+<h:head>
+    <style type="text/css">
+    .value {
+        width: 1000px;
+    }
+
+    </style>
+
+</h:head>
+<h:body>
+    <p:layout style="min-width: 1000px; min-height: 1000px;">
+        <p:layoutUnit position="west" resizable="true" size="300" minSize="40" maxSize="500">
+            <h:form>
+                <p:growl id="messages" showDetail="false"/>
+
+                <h3 style="margin-top:0">Plain Menu</h3>
+                <p:menu>
+                    <p:submenu label="Resources">
+                        <p:menuitem value="Create Employee" action="#{menuView.delete}" update="messages" ajax="false"
+                                    icon="pi pi-times"/>
+                        <p:menuitem value="View Employees" action="#{menuView.delete}" update="messages" ajax="false"
+                                    icon="pi pi-times"/>
+                    </p:submenu>
+                    <p:submenu label="Planning">
+                        <p:menuitem value="Add Condition" action="#{menuView.delete}" update="messages" ajax="false"
+                                    icon="pi pi-times"/>
+                        <p:menuitem value="Add Shift" action="#{menuView.delete}" update="messages" ajax="false"
+                                    icon="pi pi-times"/>
+                        <p:menuitem value="Map Shifts" action="#{menuView.delete}" update="messages" ajax="false"
+                                    icon="pi pi-times"/>
+                        <p:menuitem value="Plan" action="#{menuView.delete}" update="messages" ajax="false"
+                                    icon="pi pi-times"/>
+                    </p:submenu>
+                    <p:submenu label="Navigations">
+                        <p:menuitem value="View Calendar" url="http://www.primefaces.org" icon="pi pi-home"/>
+                    </p:submenu>
+                </p:menu>
+            </h:form>
+        </p:layoutUnit>
+
+        <p:layoutUnit position="center" resizable="true" size="1000" minSize="40" maxSize="2000">
+            <h:form>
+                <p:growl id="messages" showDetail="true"/>
+
+                <h:panelGrid columnClasses="value">
+                    <h3 style="margin-top: 0">Editable Schedule</h3>
+                    <p:schedule id="schedule" value="#{scheduleView.eventModel}" widgetVar="myschedule"
+                                timeZone="GMT+2">
+
+                        <p:ajax event="dateSelect" listener="#{scheduleView.onDateSelect}" update="eventDetails"
+                                oncomplete="PF('eventDialog').show();"/>
+                        <p:ajax event="eventSelect" listener="#{scheduleView.onEventSelect}" update="eventDetails"
+                                oncomplete="PF('eventDialog').show();"/>
+                        <p:ajax event="eventMove" listener="#{scheduleView.onEventMove}" update="messages"/>
+                        <p:ajax event="eventResize" listener="#{scheduleView.onEventResize}" update="messages"/>
+
+                    </p:schedule>
+                </h:panelGrid>
+
+                <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">
+                    <h:panelGrid id="eventDetails" columns="2">
+                        <p:outputLabel for="title" value="Titles:"/>
+                        <p:inputText id="title" value="#{scheduleView.event.title}" required="true"/>
+
+                        <p:outputLabel for="from" value="From:"/>
+                        <p:calendar id="from" value="#{scheduleView.event.startDate}" timeZone="GMT+2"
+                                    pattern="dd/MM/yyyy HH:mm"/>
+
+                        <p:outputLabel for="to" value="To:"/>
+                        <p:calendar id="to" value="#{scheduleView.event.endDate}" timeZone="GMT+2"
+                                    pattern="dd/MM/yyyy HH:mm"/>
+
+                        <p:outputLabel for="allDay" value="All Day:"/>
+                        <h:selectBooleanCheckbox id="allDay" value="#{scheduleView.event.allDay}"/>
+
+                        <p:commandButton type="reset" value="Reset"/>
+                        <p:commandButton id="addButton" value="Save" action="#{scheduleView.addEvent}"
+                                         oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
+                    </h:panelGrid>
+                </p:dialog>
+            </h:form>
+        </p:layoutUnit>
+    </p:layout>
+</h:body>
+</html>

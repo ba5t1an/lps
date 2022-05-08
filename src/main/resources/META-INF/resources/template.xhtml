@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+>
+<h:head>
+    <title>
+        <ui:insert name="Hello">Some title</ui:insert>
+    </title>
+    <style>
+        body {
+          margin: 0;
+          font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .sidenav {
+          height: 100%;
+          width: 260px;
+          padding-top: 102px;
+          position: fixed;
+          z-index: 1;
+          top: 0;
+          left: 0;
+          background-color: #555;
+          overflow-x: hidden;
+          padding-top: 20px;
+        }
+
+        .top-container {
+          background-color: #f1f1f1;
+          padding: 30px;
+          text-align: center;
+        }
+
+        .sticky_header {
+          padding: 10px 16px;
+          background: #D3D3D3;
+          color: #202020;
+          z-index: 1;
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+
+        .content {
+          padding: 16px;
+        }
+
+        .sticky {
+          position: fixed;
+          top: 0;
+          width: 100%;
+        }
+
+        .sticky + .content {
+          padding-top: 102px;
+        }
+
+        .right_content{
+          margin-left: 260px; /* Same as the width of the sidenav */
+          padding: 0px 10px;
+        }
+
+        #body { overflow:auto; }
+        #sidebar { float:left; width:150px; position: fixed;}
+
+    </style>
+</h:head>
+
+<h:body>
+    <div class="sticky_header" id="sheader">
+        <h2>LPS Shiftopt</h2>
+    </div>
+    <div class="content" id="body">
+        <div id="sidebar">
+            <h:form>
+                <p:growl id="messages" showDetail="false"/>
+                <p:menu>
+                    <p:submenu label="Resources">
+                        <p:menuitem value="Create Employee" action="#{menuView.delete}" update="messages" ajax="false"
+                                    icon="pi pi-times"/>
+                        <p:menuitem value="View Employees" action="#{menuView.delete}" update="messages" ajax="false"
+                                    icon="pi pi-times"/>
+                    </p:submenu>
+                    <p:submenu label="Planning">
+                        <p:menuitem value="Add Condition" action="#{menuView.delete}" update="messages" ajax="false"
+                                    icon="pi pi-times"/>
+                        <p:menuitem value="Add Shift" action="#{menuView.delete}" update="messages" ajax="false"
+                                    icon="pi pi-times"/>
+                        <p:menuitem value="Map Shifts" action="#{menuView.delete}" update="messages" ajax="false"
+                                    icon="pi pi-times"/>
+                        <p:menuitem value="Plan" action="#{menuView.delete}" update="messages" ajax="false"
+                                    icon="pi pi-times"/>
+                    </p:submenu>
+                    <p:submenu label="Navigations">
+                        <p:menuitem value="View Calendar" url="http://www.primefaces.org" icon="pi pi-home"/>
+                    </p:submenu>
+                </p:menu>
+            </h:form>
+        </div>
+        <div class="right_content">
+            <ui:insert name="content"/>
+        </div>
+    </div>
+    <script>
+        window.onscroll = function() {myFunction()};
+
+        var header = document.getElementById("sheader");
+        var sticky = header.offsetTop;
+
+        function myFunction() {
+          if (window.pageYOffset > sticky) {
+            header.classList.add("sticky");
+          } else {
+            header.classList.remove("sticky");
+          }
+        }
+
+    </script>
+</h:body>
+
+</html>
